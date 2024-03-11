@@ -18,7 +18,12 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                use: [
+                    process.env.NODE_ENV === "production"
+                        ? MiniCssExtractPlugin.loader // 프로덕션 환경
+                        : "style-loader", // 개발 환경
+                    "css-loader"
+                ]
             },
             {
                 test: /\.(jpg|png)$/,
@@ -49,7 +54,7 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         ...(process.env.NODE_ENV === "production"
-            ? [new MiniCssExtractPlugin({ filename: `[name].css` })]
+            ? [new MiniCssExtractPlugin({ filename: '[name].css' })]
             : [])
     ]
 };
