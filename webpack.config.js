@@ -17,17 +17,23 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
+                test: /\.(css|scss|sass)$/,
                 use: [
                     process.env.NODE_ENV === "production"
                         ? MiniCssExtractPlugin.loader // 프로덕션 환경
                         : "style-loader", // 개발 환경
-                    "css-loader"
+                    "css-loader",
+                    "sass-loader"
                 ]
             },
             {
                 test: /\.(jpg|png)$/,
                 type: "asset"
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ["babel-loader"]
             }
         ]
     },
