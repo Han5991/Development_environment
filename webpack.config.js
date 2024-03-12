@@ -28,6 +28,11 @@ module.exports = {
             {
                 test: /\.(jpg|png)$/,
                 type: "asset"
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ["babel-loader"]
             }
         ]
     },
