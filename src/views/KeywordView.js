@@ -6,7 +6,7 @@ export default class KeywordView extends View {
     super(el);
 
     this._messages = {
-      NO_KEYWORDS: "추천 검색어가 없습니다"
+      NO_KEYWORDS: "추천 검색어가 없습니다",
     };
 
     return this;
@@ -33,8 +33,8 @@ export default class KeywordView extends View {
   }
 
   _bindClickEvent() {
-    Array.from(this.el.querySelectorAll("li")).forEach(li => {
-      li.addEventListener("click", e => this._onClickKeyword(e));
+    Array.from(this.el.querySelectorAll("li")).forEach((li) => {
+      li.addEventListener("click", (e) => this._onClickKeyword(e));
     });
   }
 
