@@ -1,18 +1,18 @@
 class MyPlugin {
-    apply(compiler) {
-        compiler.hooks.done.tap("My Plugin", (stats) => {
-            console.log("MyPlugin worked");
-        });
+  apply(compiler) {
+    compiler.hooks.done.tap("My Plugin", (stats) => {
+      console.log("MyPlugin worked");
+    });
 
-        compiler.hooks.emit.tapAsync("My Plugin", (compilation, callback) => {
-            console.log(
-                "compilation.assets['main.js']",
-                compilation.assets["main.js"].source()
-            );
+    compiler.hooks.emit.tapAsync("My Plugin", (compilation, callback) => {
+      console.log(
+        "compilation.assets['main.js']",
+        compilation.assets["main.js"].source(),
+      );
 
-            callback();
-        });
-    }
+      callback();
+    });
+  }
 }
 
 module.exports = MyPlugin;

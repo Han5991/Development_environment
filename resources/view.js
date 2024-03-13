@@ -3,12 +3,12 @@ const view = {
     el.innerHTML =
       "<ul>" +
       data
-        .map(item => {
+        .map((item) => {
           return `<li>${item.keyword}</li>`;
         })
         .join("") +
       "</ul>";
-  }
+  },
 };
 
 export default view;
