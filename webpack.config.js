@@ -3,9 +3,30 @@ const childProcess = require("child_process");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const apiMocker = require("connect-api-mocker");
+
 
 module.exports = {
   mode: "development",
+  devServer: {
+    proxy: [{
+      context: ['/api'],
+      target: 'http://localhost:8081',
+    }],
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+    setupMiddlewares: (middlewares, devServer) => {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
+      }
+      devServer.app.use(apiMocker('/api', 'mocks/api'));
+      return middlewares;
+    },
+  },
   entry: {
     main: "./src/app.js",
   },
