@@ -9,6 +9,7 @@ const apiMocker = require("connect-api-mocker");
 module.exports = {
   mode: "development",
   devServer: {
+    hot: true,
     proxy: [{
       context: ['/api'],
       target: 'http://localhost:8081',
