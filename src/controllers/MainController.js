@@ -8,6 +8,8 @@ import SearchModel from "../models/SearchModel.js";
 import KeywordModel from "../models/KeywordModel.js";
 import HistoryModel from "../models/HistoryModel.js";
 
+import axios from "axios";
+
 export default class MainController {
   constructor() {
     const formViewEl = document.querySelector("form");
@@ -60,7 +62,7 @@ export default class MainController {
     this.tabView.setActiveTab(this.selectedTab);
 
     if (this.selectedTab === "추천 검색어") {
-      const data = await KeywordModel.list();
+      const data = await axios.get("http://localhost:8081/api/keywords").then((res) => res.data);
       this.keywordView.mount(data);
       this.historyView.hide();
     } else {
