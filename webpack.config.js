@@ -4,16 +4,20 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const apiMocker = require("connect-api-mocker");
-
+const OptimizeCSSAssetsPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const mode = process.env.NODE_ENV || "development";
 
 module.exports = {
-  mode: "development",
+  mode,
   devServer: {
     hot: true,
-    proxy: [{
-      context: ['/api'],
-      target: 'http://localhost:8081',
-    }],
+    proxy: [
+      {
+        context: ["/api"],
+        target: "http://localhost:8081",
+      },
+    ],
     client: {
       overlay: {
         errors: true,
@@ -22,9 +26,9 @@ module.exports = {
     },
     setupMiddlewares: (middlewares, devServer) => {
       if (!devServer) {
-        throw new Error('webpack-dev-server is not defined');
+        throw new Error("webpack-dev-server is not defined");
       }
-      devServer.app.use(apiMocker('/api', 'mocks/api'));
+      devServer.app.use(apiMocker("/api", "mocks/api"));
       return middlewares;
     },
   },
@@ -35,6 +39,22 @@ module.exports = {
     filename: "[name].js",
     path: __dirname + "/dist",
     assetModuleFilename: "[name][ext]?[hash]",
+  },
+  optimization: {
+    minimizer:
+      mode === "production"
+        ? [
+            new OptimizeCSSAssetsPlugin(),
+            new TerserPlugin({
+              terserOptions: {
+                compress: { drop_console: true },
+              },
+            }),
+          ]
+        : [],
+    splitChunks: {
+      chunks: "all",
+    },
   },
   module: {
     rules: [
